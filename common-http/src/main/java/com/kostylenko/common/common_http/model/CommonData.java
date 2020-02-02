@@ -1,11 +1,11 @@
-package com.kostylenko.common.http.model;
+package com.kostylenko.common.common_http.model;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.kostylenko.common.http.utils.Constant.CLIENT_HEADER;
+import static com.kostylenko.common.common_http.utils.Constant.CLIENT_HEADER;
 import static java.util.UUID.randomUUID;
 
 @Getter

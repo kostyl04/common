@@ -1,4 +1,4 @@
-package com.kostylenko.common.http.exception;
+package com.kostylenko.common.common_http.exception;
 
 import lombok.Getter;
 import lombok.Setter;

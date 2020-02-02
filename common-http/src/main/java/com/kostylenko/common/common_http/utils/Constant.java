@@ -1,4 +1,4 @@
-package com.kostylenko.common.http.utils;
+package com.kostylenko.common.common_http.utils;
 
 import lombok.experimental.UtilityClass;
 

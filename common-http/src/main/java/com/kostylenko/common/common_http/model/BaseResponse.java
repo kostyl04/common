@@ -1,4 +1,4 @@
-package com.kostylenko.common.http.model;
+package com.kostylenko.common.common_http.model;
 
 import lombok.Getter;
 import lombok.Setter;

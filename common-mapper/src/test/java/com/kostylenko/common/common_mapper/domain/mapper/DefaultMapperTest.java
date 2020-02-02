@@ -48,7 +48,6 @@ class DefaultMapperTest {
         );
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     void testMapByObjectWithScope() {
         TestObject testObject = new TestObject();

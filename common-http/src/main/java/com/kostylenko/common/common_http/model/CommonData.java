@@ -1,28 +1,25 @@
 package com.kostylenko.common.common_http.model;
 
 import lombok.Getter;
-import lombok.Setter;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.kostylenko.common.common_http.utils.Constant.CLIENT_HEADER;
+import static com.kostylenko.common.common_http.utils.Constant.*;
+import static java.util.Objects.nonNull;
 import static java.util.UUID.randomUUID;
-import static org.springframework.context.annotation.ScopedProxyMode.TARGET_CLASS;
-import static org.springframework.web.context.WebApplicationContext.SCOPE_REQUEST;
 
 @Getter
-@Setter
-@Component
-@Scope(proxyMode = TARGET_CLASS, value = SCOPE_REQUEST)
 public class CommonData {
 
-    private String flowId;
-    private String client;
+    private final String flowId;
+    private final String client;
+    private final String locale;
+    private final String lang;
 
-    public CommonData(HttpServletRequest request) {
+    public CommonData(HttpServletRequest request, String defaultLocale, String defaultLang) {
         flowId = randomUUID().toString();
         client = request.getHeader(CLIENT_HEADER);
+        locale = nonNull(request.getHeader(LOCALE_HEADER)) ? request.getHeader(LOCALE_HEADER) : defaultLocale;
+        lang = nonNull(request.getHeader(LANG_HEADER)) ? request.getHeader(LANG_HEADER) : defaultLang;
     }
 }

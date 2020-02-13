@@ -6,8 +6,10 @@ import org.springframework.http.HttpStatus;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
+
 @Getter
-class ApiException extends RuntimeException {
+public class ApiException extends RuntimeException {
 
     protected String code;
     protected final HttpStatus status;
@@ -22,5 +24,9 @@ class ApiException extends RuntimeException {
     public ApiException addArgument(String name, Object argument) {
         arguments.put(name, argument);
         return this;
+    }
+
+    public boolean hasArguments() {
+        return isNotEmpty(arguments);
     }
 }

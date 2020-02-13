@@ -4,6 +4,10 @@ import java.util.Map;
 
 public interface TemplateProcessor {
 
+    String process(String template) throws TemplateProcessingException;
+
+    String process(String template, String defaultValue);
+
     String process(String template, Map<String, Object> args) throws TemplateProcessingException;
 
     String process(String template, Map<String, Object> args, String defaultValue);

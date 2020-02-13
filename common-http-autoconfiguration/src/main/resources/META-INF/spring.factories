@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.baeldung.autoconfiguration.MySQLAutoconfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.kostylenko.common.common_http.autoconfiguration.CommonHttpAutoConfiguration

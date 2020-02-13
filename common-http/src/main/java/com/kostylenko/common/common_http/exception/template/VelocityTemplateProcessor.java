@@ -4,6 +4,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
 import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Objects.isNull;
@@ -15,6 +16,16 @@ public class VelocityTemplateProcessor implements TemplateProcessor {
     public VelocityTemplateProcessor() {
         velocityEngine = new VelocityEngine();
         velocityEngine.init();
+    }
+
+    @Override
+    public String process(String template) throws TemplateProcessingException {
+        return this.process(template, new HashMap<>());
+    }
+
+    @Override
+    public String process(String template, String defaultValue) {
+        return this.process(template, new HashMap<>(), defaultValue);
     }
 
     @Override

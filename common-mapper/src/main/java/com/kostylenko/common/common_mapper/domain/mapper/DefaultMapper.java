@@ -3,14 +3,13 @@ package com.kostylenko.common.common_mapper.domain.mapper;
 import com.kostylenko.common.common_mapper.domain.converter.BaseConverter;
 import com.kostylenko.common.common_mapper.domain.exception.ConverterException;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.*;
 
 import static java.lang.String.format;
 import static java.util.Objects.isNull;
+import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "Duplicates"})
 public class DefaultMapper implements Mapper {
 
     private List<BaseConverter> converters;
@@ -61,10 +60,10 @@ public class DefaultMapper implements Mapper {
         if (isNull(to) || isNull(from)) {
             return null;
         }
-        BaseConverter converter = findConverter(getCollectionType(from), to, null);
-        List<T> result = new ArrayList<>();
-        addConvertedObjects(converter, from, result);
-        return result;
+        if (isEmpty(from)) {
+            return new ArrayList<>();
+        }
+        return (List<T>) mapCollection(from, to, new ArrayList<>(), null);
     }
 
     @Override
@@ -72,10 +71,10 @@ public class DefaultMapper implements Mapper {
         if (isNull(to) || isNull(from)) {
             return null;
         }
-        BaseConverter converter = findConverter(getCollectionType(from), to, scope);
-        List<T> result = new ArrayList<>();
-        addConvertedObjects(converter, from, result);
-        return result;
+        if (isEmpty(from)) {
+            return new ArrayList<>();
+        }
+        return (List<T>) mapCollection(from, to, new ArrayList<>(), scope);
     }
 
     @Override
@@ -83,10 +82,10 @@ public class DefaultMapper implements Mapper {
         if (isNull(to) || isNull(from)) {
             return null;
         }
-        BaseConverter converter = findConverter(getCollectionType(from), to, null);
-        Set<T> result = new HashSet<>();
-        addConvertedObjects(converter, from, result);
-        return result;
+        if (isEmpty(from)) {
+            return new HashSet<>();
+        }
+        return (Set<T>) mapCollection(from, to, new HashSet<>(), null);
     }
 
     @Override
@@ -94,23 +93,10 @@ public class DefaultMapper implements Mapper {
         if (isNull(to) || isNull(from)) {
             return null;
         }
-        BaseConverter converter = findConverter(getCollectionType(from), to, scope);
-        Set<T> result = new HashSet<>();
-        addConvertedObjects(converter, from, result);
-        return result;
-    }
-
-    private <F, T> void addConvertedObjects(BaseConverter<F, T> converter,
-                                            Collection<F> from,
-                                            Collection<T> to) {
-        from.forEach(fromItem -> to.add(converter.convert(fromItem)));
-    }
-
-    private <F> Class<F> getCollectionType(Collection<F> collection) {
-        Type[] genericTypes = ((ParameterizedType) collection.getClass()
-                .getGenericSuperclass())
-                .getActualTypeArguments();
-        return (Class<F>) genericTypes[0];
+        if (isEmpty(from)) {
+            return new HashSet<>();
+        }
+        return (Set<T>) mapCollection(from, to, new HashSet<>(), scope);
     }
 
     private List<BaseConverter> getConverters() {
@@ -129,5 +115,13 @@ public class DefaultMapper implements Mapper {
                                 from.getName(),
                                 to.getName()))
                 );
+    }
+
+    private <F, T> Collection<T> mapCollection(Collection<F> from, Class<T> to, Collection<T> result, String scope) {
+        from.forEach(fromItem -> {
+            BaseConverter converter = findConverter(fromItem.getClass(), to, scope);
+            result.add((T) converter.convert(fromItem));
+        });
+        return result;
     }
 }

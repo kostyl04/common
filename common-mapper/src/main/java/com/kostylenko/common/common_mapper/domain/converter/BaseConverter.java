@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
 public abstract class BaseConverter<F, T> {
 
     private Key key;
-    private Mapper mapper;
+    protected Mapper mapper;
 
     public BaseConverter() {
         initKey();

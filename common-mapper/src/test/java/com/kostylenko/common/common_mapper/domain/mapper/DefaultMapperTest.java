@@ -9,6 +9,9 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+import java.util.Set;
+
 import static java.util.List.of;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -65,6 +68,42 @@ class DefaultMapperTest {
                 () -> assertNotSame(this.testObject, map),
                 () -> verify(converterWithScope, times(1)).convert(eq(this.testObject), any())
         );
+    }
+
+    @Test
+    void testMapToSet() {
+        Set<TestObject> from = Set.of(this.testObject);
+        Set<TestObject> testObjects = mapper.mapToSet(from, TestObject.class);
+        assertAll(() -> assertEquals(from, testObjects),
+                () -> assertNotSame(testObjects, from));
+    }
+
+    @Test
+    void testMapToSetWithScope() {
+        Set<TestObject> from = Set.of(this.testObject);
+        Set<TestObject> testObjects = mapper.mapToSet(from, TestObject.class, "test");
+        assertAll(() -> assertEquals(from, testObjects),
+                () -> assertNotSame(testObjects, from),
+                () -> verify(converterWithScope, times(1)).convert(eq(this.testObject), any()));
+
+    }
+
+    @Test
+    void testMapToList() {
+        Set<TestObject> from = Set.of(this.testObject);
+        Set<TestObject> testObjects = mapper.mapToSet(from, TestObject.class);
+        assertAll(() -> assertEquals(from, testObjects),
+                () -> assertNotSame(testObjects, from));
+    }
+
+    @Test
+    void testMapToListWithScope() {
+        List<TestObject> from = List.of(this.testObject);
+        List<TestObject> mapped = mapper.mapToList(from, TestObject.class, "test");
+        assertAll(() -> assertEquals(from, mapped),
+                () -> assertNotSame(mapped, from),
+                () -> verify(converterWithScope, times(1)).convert(eq(this.testObject), any()));
+
     }
 
     @ConverterScope("test")

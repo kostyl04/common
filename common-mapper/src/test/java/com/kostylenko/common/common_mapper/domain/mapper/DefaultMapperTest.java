@@ -2,6 +2,7 @@ package com.kostylenko.common.common_mapper.domain.mapper;
 
 import com.kostylenko.common.common_mapper.domain.converter.BaseConverter;
 import com.kostylenko.common.common_mapper.domain.converter.ConverterScope;
+import com.kostylenko.common.common_mapper.domain.converter.TestEnum;
 import com.kostylenko.common.common_mapper.domain.converter.TestObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,6 +69,30 @@ class DefaultMapperTest {
                 () -> assertNotSame(this.testObject, map),
                 () -> verify(converterWithScope, times(1)).convert(eq(this.testObject), any())
         );
+    }
+
+    @Test
+    void testMapStringToEnum() {
+        TestEnum string = mapper.map("STRING", TestEnum.class);
+        assertSame(TestEnum.STRING, string);
+    }
+
+    @Test
+    void testMapStringToEnumIgnoreCase() {
+        TestEnum string = mapper.map("striNg", TestEnum.class);
+        assertSame(TestEnum.STRING, string);
+    }
+
+    @Test
+    void testMapStringToEnumWithNullArgument() {
+        TestEnum string = mapper.map(null, TestEnum.class);
+        assertSame(null, string);
+    }
+
+    @Test
+    void testMapStringToEnumWithBadArgument() {
+        TestEnum string = mapper.map("STRIN", TestEnum.class);
+        assertNull(string);
     }
 
     @Test

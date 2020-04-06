@@ -2,14 +2,19 @@ package com.kostylenko.common.common_http.autoconfiguration;
 
 import com.kostylenko.common.common_http.exception.handler.GlobalExceptionHandler;
 import com.kostylenko.common.common_http.exception.message.TemplateSource;
+import com.kostylenko.common.common_http.exception.message.TemplateSourceMock;
 import com.kostylenko.common.common_http.exception.template.TemplateProcessor;
 import com.kostylenko.common.common_http.exception.template.VelocityTemplateProcessor;
 import com.kostylenko.common.common_http.model.CommonData;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.http.HttpServletRequest;
+
+import static org.springframework.context.annotation.ScopedProxyMode.TARGET_CLASS;
 
 @Configuration
 public class CommonHttpAutoConfiguration {
@@ -22,12 +27,12 @@ public class CommonHttpAutoConfiguration {
 
     //TODO Config-service template source
     @Bean
-    @ConditionalOnMissingBean(TemplateProcessor.class)
     public TemplateSource templateSource() {
-        return (lang, code) -> "Some template";
+        return new TemplateSourceMock();
     }
 
     @Bean
+    @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = TARGET_CLASS)
     @ConditionalOnMissingBean(CommonData.class)
     public CommonData commonData(HttpServletRequest request) {
         return new CommonData(request, "ru", "ru");

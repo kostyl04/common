@@ -14,6 +14,8 @@ public interface Mapper {
 
     <F, T> T map(F from, Class<T> to, String scope);
 
+    <T extends Enum<T>> T map(String from, Class<T> enumClazz);
+
     <F, T> List<T> mapToList(Collection<F> from, Class<T> to);
 
     <F, T> List<T> mapToList(Collection<F> from, Class<T> to, String scope);

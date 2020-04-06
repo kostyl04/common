@@ -5,7 +5,8 @@ import com.kostylenko.common.common_mapper.domain.exception.ConverterException;
 
 import java.util.*;
 
-import static com.kostylenko.common.common_mapper.domain.converter.StringToEnumConverter.convertToEnum;
+import static com.kostylenko.common.common_mapper.domain.converter.EnumConverterUtils.convertEnumToEnum;
+import static com.kostylenko.common.common_mapper.domain.converter.EnumConverterUtils.convertStringToEnum;
 import static java.lang.String.format;
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.ObjectUtils.isEmpty;
@@ -61,7 +62,16 @@ public class DefaultMapper implements Mapper {
         if(isNull(enumClazz)||isNull(from)){
             return null;
         }
-        return convertToEnum(from,enumClazz);
+        return convertStringToEnum(from,enumClazz);
+    }
+
+    //TODO Write tests
+    @Override
+    public <F extends Enum<F>, T extends Enum<T>> T map(Enum<F> from, Class<T> to) {
+        if(isNull(from)||isNull(to)){
+            return null;
+        }
+        return convertEnumToEnum(from,to);
     }
 
     @Override

@@ -83,9 +83,11 @@ class DefaultMapperTest {
         assertSame(TestEnum.STRING, string);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Test
     void testMapStringToEnumWithNullArgument() {
-        TestEnum string = mapper.map(null, TestEnum.class);
+        String from = null;
+        TestEnum string = mapper.map(from, TestEnum.class);
         assertSame(null, string);
     }
 

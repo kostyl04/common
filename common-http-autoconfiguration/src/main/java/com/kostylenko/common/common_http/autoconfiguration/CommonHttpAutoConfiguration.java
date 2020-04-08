@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.context.annotation.ScopedProxyMode.TARGET_CLASS;
 
+//test ci
 @Configuration
 public class CommonHttpAutoConfiguration {
 

@@ -23,7 +23,7 @@ public class CommonHttpAutoConfiguration {
     @ConditionalOnMissingBean(TemplateProcessor.class)
     public TemplateProcessor templateProcessor() {
         return new VelocityTemplateProcessor();
-
+    }
 
     //TODO Config-service template source
     @Bean

@@ -6,7 +6,7 @@
 image: maven:3.6.1
 
 pipelines:
-  default:
+  master:
     - step:
         caches:
           - maven

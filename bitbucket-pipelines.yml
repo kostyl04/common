@@ -6,9 +6,11 @@
 image: maven:3.6.1
 
 pipelines:
-  master:
-    - step:
-        caches:
-          - maven
-        script: # Modify the commands below to build your repository.
-          - mvn -B test # -B batch mode makes Maven less verbose
+  branches:
+    master:
+      - step:
+          caches:
+            - maven
+          script: # Modify the commands below to build your repository.
+            - mvn -B test # -B batch mode makes Maven less verbose
+

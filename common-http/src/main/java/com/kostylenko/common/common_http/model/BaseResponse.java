@@ -5,6 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static java.util.Objects.isNull;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -13,4 +20,21 @@ public class BaseResponse {
 
     private String code;
     private String message;
+    private Map<String, List<String>> fieldErrors;
+
+    private Map<String, List<String>> getFieldErrors() {
+        if (isNull(fieldErrors)) {
+            fieldErrors = new HashMap<>();
+        }
+        return fieldErrors;
+    }
+
+    public void addError(String field, String message) {
+        List<String> errors = getFieldErrors().get(field);
+        if (isNull(errors)) {
+            errors = new ArrayList<>();
+        }
+        errors.add(message);
+        fieldErrors.put(field, errors);
+    }
 }

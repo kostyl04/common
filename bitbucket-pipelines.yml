@@ -25,5 +25,6 @@ pipelines:
             - mvn clean deploy
             - mvn versions:set -DnextSnapshot=true
             - git add -u
+            - git pull
             - git commit -m "new snapshot version"
             - git push origin master

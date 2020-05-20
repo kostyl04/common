@@ -15,8 +15,8 @@ pipelines:
             - mvn -B test # -B batch mode makes Maven less verbose
 
   custom:
-  release:
-    - step:
+    release:
+      - step:
         - script:
             - mvn versions:set -DremoveSnapshot
             - mvn clean deploy

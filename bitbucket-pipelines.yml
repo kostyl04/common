@@ -16,7 +16,7 @@ pipelines:
   custom:
     release:
       - step:
-        - script:
+          script:
             - mvn versions:set -DremoveSnapshot
             - mvn clean deploy
             - mvn versions:set -DnextSnapshot=true

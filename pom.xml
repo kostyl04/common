@@ -119,6 +119,12 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<distributionManagement>
+		<repository>
+			<id>deploymentRepo</id>
+			<url>https://mvn-repository-273915.appspot.com/</url>
+		</repository>
+	</distributionManagement>
 
 	<build>
 		<pluginManagement>

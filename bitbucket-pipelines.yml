@@ -24,5 +24,6 @@ pipelines:
             - mvn versions:set -DremoveSnapshot
             - mvn clean deploy
             - mvn versions:set -DnextSnapshot=true
+            - git add -u
             - git commit -m "new snapshot version"
             - git push origin master

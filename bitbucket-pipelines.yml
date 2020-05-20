@@ -14,3 +14,12 @@ pipelines:
           script: # Modify the commands below to build your repository.
             - mvn -B test # -B batch mode makes Maven less verbose
 
+  custom:
+  release:
+    - step:
+        - script:
+            - mvn versions:set -DremoveSnapshot
+            - mvn clean deploy
+            - mvn versions:set -DnextSnapshot=true
+            - git commit -m "new snapshot version"
+            - git push origin master

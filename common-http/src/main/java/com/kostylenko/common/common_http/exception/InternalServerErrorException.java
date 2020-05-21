@@ -10,6 +10,12 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 @Setter
 public class InternalServerErrorException extends ApiException {
 
+    private String code;
+
+    public InternalServerErrorException(String code) {
+        super(code, INTERNAL_SERVER_ERROR);
+    }
+
     public InternalServerErrorException() {
         super(INTERNAL_SERVER_ERROR_MESSAGE_CODE, INTERNAL_SERVER_ERROR);
     }

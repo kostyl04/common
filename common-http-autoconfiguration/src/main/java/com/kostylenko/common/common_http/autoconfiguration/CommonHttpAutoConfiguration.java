@@ -1,8 +1,11 @@
 package com.kostylenko.common.common_http.autoconfiguration;
 
+import com.kostylenko.common.common_http.exception.processor.FieldErrorMessageProcessor;
+import com.kostylenko.common.common_http.exception.processor.NotBlankMessageProcessor;
+import com.kostylenko.common.common_http.exception.processor.NotEmptyMessageProcessor;
+import com.kostylenko.common.common_http.exception.processor.PatternMessageProcessor;
 import com.kostylenko.common.common_http.exception.handler.GlobalExceptionHandler;
 import com.kostylenko.common.common_http.exception.message.TemplateSource;
-import com.kostylenko.common.common_http.exception.message.TemplateSourceMock;
 import com.kostylenko.common.common_http.exception.template.TemplateProcessor;
 import com.kostylenko.common.common_http.exception.template.VelocityTemplateProcessor;
 import com.kostylenko.common.common_http.model.CommonData;
@@ -13,6 +16,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.springframework.context.annotation.ScopedProxyMode.TARGET_CLASS;
 
@@ -25,22 +30,27 @@ public class CommonHttpAutoConfiguration {
         return new VelocityTemplateProcessor();
     }
 
-    //TODO Config-service template source
-    @Bean
-    public TemplateSource templateSource() {
-        return new TemplateSourceMock();
-    }
-
     @Bean
     @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = TARGET_CLASS)
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @ConditionalOnMissingBean(CommonData.class)
     public CommonData commonData(HttpServletRequest request) {
-        return new CommonData(request, "ru", "ru");
+        return new CommonData(request, "en", "en");
     }
 
     @Bean
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @ConditionalOnMissingBean(GlobalExceptionHandler.class)
-    public GlobalExceptionHandler globalExceptionHandler(CommonData commonData) {
-        return new GlobalExceptionHandler(templateProcessor(), templateSource(), commonData);
+    public GlobalExceptionHandler globalExceptionHandler(CommonData commonData, TemplateSource templateSource) {
+        return new GlobalExceptionHandler(fieldErrorMessageProcessors(templateSource), templateProcessor(), templateSource, commonData);
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    protected Set<FieldErrorMessageProcessor> fieldErrorMessageProcessors(TemplateSource templateSource) {
+        HashSet<FieldErrorMessageProcessor> processors = new HashSet<>();
+        processors.add(new PatternMessageProcessor(templateSource));
+        processors.add(new NotBlankMessageProcessor(templateSource));
+        processors.add(new NotEmptyMessageProcessor(templateSource));
+        return processors;
     }
 }

@@ -1,4 +1,4 @@
-package com.kostylenko.common.common_http.exception;
+package com.kostylenko.common.common_http.exception.processor;
 
 public interface FieldErrorMessageProcessor {
 

@@ -1,9 +1,9 @@
 package com.kostylenko.common.common_http.autoconfiguration;
 
-import com.kostylenko.common.common_http.exception.FieldErrorMessageProcessor;
-import com.kostylenko.common.common_http.exception.NotBlankMessageProcessor;
-import com.kostylenko.common.common_http.exception.NotEmptyMessageProcessor;
-import com.kostylenko.common.common_http.exception.PatternMessageProcessor;
+import com.kostylenko.common.common_http.exception.processor.FieldErrorMessageProcessor;
+import com.kostylenko.common.common_http.exception.processor.NotBlankMessageProcessor;
+import com.kostylenko.common.common_http.exception.processor.NotEmptyMessageProcessor;
+import com.kostylenko.common.common_http.exception.processor.PatternMessageProcessor;
 import com.kostylenko.common.common_http.exception.handler.GlobalExceptionHandler;
 import com.kostylenko.common.common_http.exception.message.TemplateSource;
 import com.kostylenko.common.common_http.exception.template.TemplateProcessor;
@@ -45,7 +45,8 @@ public class CommonHttpAutoConfiguration {
         return new GlobalExceptionHandler(fieldErrorMessageProcessors(templateSource), templateProcessor(), templateSource, commonData);
     }
 
-    private Set<FieldErrorMessageProcessor> fieldErrorMessageProcessors(TemplateSource templateSource) {
+    @SuppressWarnings("WeakerAccess")
+    protected Set<FieldErrorMessageProcessor> fieldErrorMessageProcessors(TemplateSource templateSource) {
         HashSet<FieldErrorMessageProcessor> processors = new HashSet<>();
         processors.add(new PatternMessageProcessor(templateSource));
         processors.add(new NotBlankMessageProcessor(templateSource));

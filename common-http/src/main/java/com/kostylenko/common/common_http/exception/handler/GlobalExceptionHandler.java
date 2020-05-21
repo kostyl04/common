@@ -1,7 +1,7 @@
 package com.kostylenko.common.common_http.exception.handler;
 
 import com.kostylenko.common.common_http.exception.ApiException;
-import com.kostylenko.common.common_http.exception.FieldErrorMessageProcessor;
+import com.kostylenko.common.common_http.exception.processor.FieldErrorMessageProcessor;
 import com.kostylenko.common.common_http.exception.InternalServerErrorException;
 import com.kostylenko.common.common_http.exception.message.TemplateSource;
 import com.kostylenko.common.common_http.exception.template.TemplateProcessor;
@@ -21,6 +21,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.util.Set;
 
+import static org.springframework.http.HttpStatus.*;
+
 @Slf4j
 @ControllerAdvice
 @AllArgsConstructor
@@ -30,6 +32,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private TemplateProcessor templateProcessor;
     private TemplateSource templateSource;
     private CommonData commonData;
+    private static final String baseResponseCode = "validation.error";
 
     public GlobalExceptionHandler(TemplateProcessor templateProcessor, TemplateSource templateSource) {
         this.templateProcessor = templateProcessor;
@@ -63,8 +66,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             String messageDescription = fieldErrorMessageProcessor.getCodeDescription(fieldName, code, "en");
             baseResponse.addError(fieldName, messageDescription);
         });
-        baseResponse.setCode("validation.error");
-        return new ResponseEntity<>(baseResponse, HttpStatus.BAD_REQUEST);
+        baseResponse.setCode(baseResponseCode);
+        return new ResponseEntity<>(baseResponse, BAD_REQUEST);
     }
 
     private ResponseEntity<BaseResponse> buildResponse(ApiException apiException, String message) {

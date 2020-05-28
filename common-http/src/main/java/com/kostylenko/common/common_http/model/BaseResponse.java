@@ -22,7 +22,7 @@ public class BaseResponse {
     private String message;
     private Map<String, List<String>> fieldErrors;
 
-    private Map<String, List<String>> getFieldErrors() {
+    public Map<String, List<String>> getFieldErrors() {
         if (isNull(fieldErrors)) {
             fieldErrors = new HashMap<>();
         }

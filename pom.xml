@@ -15,7 +15,7 @@
 	</parent>
 	<groupId>com.kostylenko</groupId>
 	<artifactId>common</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>0.0.5-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>common</name>
 	<description>Demo project for Spring Boot</description>

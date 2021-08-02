@@ -5,7 +5,7 @@
 # You can specify a custom docker image from Docker Hub as your build environment.
 
 image:
-  name: kastylenka.jfrog.io/bitbucket-images/bitbucket-maven:latest
+  name:  https://kastylenka.jfrog.io/bitbucket-images/bitbucket-maven:latest
   username: $DOCKER_USERNAME
   password: $DOCKER_PASSWORD
   email: $EMAIL

@@ -58,7 +58,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         BindingResult bindingResult = ex.getBindingResult();
         BaseResponse baseResponse = new BaseResponse();
         bindingResult.getFieldErrors().forEach(fieldError -> {
-            String fieldName = fieldError.getDefaultMessage();
+            String fieldName = fieldError.getField();
             String code = fieldError.getCode();
             FieldErrorMessageProcessor fieldErrorMessageProcessor = fieldErrorMessageProcessors.stream()
                     .filter(processor -> processor.supports(code))
